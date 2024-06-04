@@ -20,4 +20,25 @@ const addCustomUnit = (unit, factor, name) => {
   units[unit] = { factor, name };
 };
 
-module.exports = { getUnits, getHistory, addToHistory, addCustomUnit };
+const editUnit = (unit, newFactor, newName) => {
+  if (!(unit in units)) {
+    throw new Error(`Unit '${unit}' does not exist.`);
+  }
+  if (unit === 'gram') {
+    throw new Error("Cannot edit the base unit 'gram'.");
+  }
+  units[unit].factor = parseFloat(newFactor);
+  units[unit].name = newName || units[unit].name;
+};
+
+const deleteUnit = (unit) => {
+  if (!(unit in units)) {
+    throw new Error(`Unit '${unit}' does not exist.`);
+  }
+  if (unit === 'gram') {
+    throw new Error("Cannot delete the base unit 'gram'.");
+  }
+  delete units[unit];
+};
+
+module.exports = { getUnits, getHistory, addToHistory, addCustomUnit, editUnit, deleteUnit};
